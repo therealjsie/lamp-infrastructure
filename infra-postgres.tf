@@ -99,7 +99,10 @@ resource "postgresql_schema" "service_name" {
   database = azurecaf_name.postgresql_database.result
   owner    = local.postgres_user_name
 
-  depends_on = [azurerm_postgresql_database.service_name, azurerm_postgresql_firewall_rule.public_access]
+  depends_on = [
+    azurerm_postgresql_database.service_name,
+    azurerm_postgresql_firewall_rule.public_access
+  ]
 }
 
 resource "azurerm_key_vault_secret" "database_password" {
