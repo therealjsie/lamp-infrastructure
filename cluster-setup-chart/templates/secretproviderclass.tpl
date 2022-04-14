@@ -3,7 +3,7 @@ apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
 metadata:
   name: azure-secrets-csi-provider
-  namespace: ${appName}
+  namespace: {{ .Values.appName }}
 spec:
   provider: azure
   secretObjects:
@@ -15,9 +15,9 @@ spec:
     - objectName: "database-connection-string"
       key: database-connection-string
   parameters:
-    keyvaultName: "${keyVaultName}"
-    tenantId: ${tenantId}
-    userAssignedIdentityID: ${secretProviderIdentityId}
+    keyvaultName: {{ .Values.keyVaultName }} 
+    tenantId: {{ .Values.tenantId }} 
+    userAssignedIdentityID: {{ .Values.secretProviderIdentityId }}
     useVMManagedIdentity: "true"
     objects:  |
       array:
