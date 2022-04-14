@@ -2,6 +2,10 @@ resource "kubernetes_namespace" "service_name" {
   metadata {
     name = var.service_name
   }
+
+  depends_on = [
+    azurerm_kubernetes_cluster.service_name,
+  ]
 }
 
 resource "kubernetes_manifest" "secretproviderclass" {

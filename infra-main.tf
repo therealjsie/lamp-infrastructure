@@ -25,6 +25,8 @@ resource "azurerm_key_vault" "service_name" {
   sku_name            = "standard"
 }
 
+# All possible values are for the permissions are listed in the documentation of the terraform module.
+# Ref.: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy
 resource "azurerm_key_vault_access_policy" "terraform_provisioner" {
   key_vault_id = azurerm_key_vault.service_name.id
   object_id    = data.azurerm_client_config.current.object_id
@@ -41,6 +43,7 @@ resource "azurerm_key_vault_access_policy" "terraform_provisioner" {
   secret_permissions = [
     "Get",
     "List",
-    "Set"
+    "Set",
+    "Delete"
   ]
 }
