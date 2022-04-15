@@ -1,3 +1,5 @@
+# This file contains all foundational resources that are required by AKS, Postgres, etc.
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "service_name" {

@@ -1,4 +1,5 @@
-# Ref.: https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/azurecaf_name
+# This file contains all resources for provisioning and configuring a Postgres database for a service.
+
 resource "azurecaf_name" "postgresql_server" {
   name          = var.service_name
   suffixes      = [var.stage_name]
@@ -24,7 +25,6 @@ resource "random_password" "database" {
   override_special = "!#$%*()-_=+[]{}:?"
 }
 
-# Ref.: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_database
 resource "azurerm_postgresql_server" "service_name" {
   name                = azurecaf_name.postgresql_server.result
   location            = azurerm_resource_group.service_name.location
@@ -48,7 +48,7 @@ resource "azurerm_postgresql_server" "service_name" {
   }
 }
 
-# This firewall rule is necessary to allow Terraform Cloud to configure the Postgres instance. This configuration is subject for debate.
+# This firewall rule is necessary to allow Terraform Cloud to configure the Postgres instance. IMO this configuration is subject for debate.
 # Moving database configuration out of Terraform and into an Azure-internal service seems sensible.
 # Ref.: https://www.terraform.io/cloud-docs/run/run-environment#network-access-to-vcs-and-infrastructure-providers
 resource "azurerm_postgresql_firewall_rule" "public_access" {
@@ -67,7 +67,8 @@ resource "azurerm_postgresql_database" "service_name" {
   collation           = "English_United States.1252"
 }
 
-#Ref.: https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/
+# The referenced article provides a helpful overview over the configuration of Postgres instances.
+# Ref.: https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/
 resource "postgresql_role" "service_name" {
   name        = local.postgres_user_name
   password    = random_password.database.result
@@ -82,7 +83,6 @@ resource "postgresql_role" "service_name" {
   depends_on = [azurerm_postgresql_database.service_name, azurerm_postgresql_firewall_rule.public_access]
 }
 
-# Ref.: https://registry.terraform.io/providers/cyrilgdn/postgresql/latest/docs/resources/postgresql_grant
 resource "postgresql_grant" "revoke_public" {
   database    = azurecaf_name.postgresql_database.result
   role        = "public"
@@ -92,7 +92,6 @@ resource "postgresql_grant" "revoke_public" {
 
   depends_on = [azurerm_postgresql_database.service_name, azurerm_postgresql_firewall_rule.public_access]
 }
-
 
 resource "postgresql_schema" "service_name" {
   name     = var.service_name

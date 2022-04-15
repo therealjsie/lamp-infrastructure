@@ -1,50 +1,37 @@
 # lamp-infra Repository
 
-This is a barebone infrastructure setup for a sample service that runs in AKS
-and uses an Azure-managed PostgreSQL database.
+This is the infrastructure definition for a service that is deployed in an AKS
+cluster and uses an Azure-managed PostgreSQL database as well as Azure Key
+Vault. Please note, the infrastructure definition is not meant to be
+production-ready.
+
+The goal of this repository is to provide basic infrastructure for the
+lamp-service in the
+[lamp-app Repository](https://github.com/therealjsie/lamp-app).
 
 ## Prerequisites
 
-- Terraform
+- Terraform CLI
 - Azure subscription
+- Optional: Terraform Cloud
 
-Ref:
-https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/service_principal_configuration
+The Terraform workspace needs to be configured to have access to the target
+Azure subscription (e.g.
+[through a service principal with a secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret)).
+The executing user needs to have access rights to grant privileges to other
+users (e.g. the built-in `Owner` role in Azure).
 
-## How to provision infrastructure from a local machine
+## Deployment
 
-Use this guide to get configuration instructions for working with Terraform on
-Azure:
+The infrastruction definition can be deployed either through a local workspace
+or via Terraform cloud. In both cases the following parameters are relevant:
 
-https://docs.microsoft.com/en-us/azure/developer/terraform/overview
+| Name                  | Type     | Description                                                                             | Required/Optional | Default              |
+| --------------------- | -------- | --------------------------------------------------------------------------------------- | ----------------- | -------------------- |
+| `service_name`        | `string` | The name of the service that will be deployed with this infrastructure.                 | **Required**      | -                    |
+| `stage_name`          | `string` | The name of the stage that will be deployed.                                            | **Required**      | -                    |
+| `location`            | `string` | The location of the DC where the infrastructure will be deployed.                       | Optional          | Germany West Central |
+| `postgres_admin_user` | `string` | The name of the Postgres admin that will be configured during the infrastructure setup. | Optional          | psqladmin            |
 
-The following environment variables should be set to enable Terraform to
-provision infrastructure on Azure:
-
-- ARM_SUBSCRIPTION_ID
-- ARM_TENANT_ID
-- ARM_CLIENT_ID
-- ARM_CLIENT_SECRET
-
-Use `terraform plan` followed by `terraform apply` to provision infrastructure
-in Azure through Terraform. Examples can be found here:
-
-https://learn.hashicorp.com/collections/terraform/azure-get-started
-
-## How to provision infrastructure from Terraform Cloud
-
-...
-
-# Further considerations
-
-This project aims to use as few Azure resources outside the free tier as
-possible. In some cases, this results in resources that are not production-ready
-(i.e. cluster architecture of AKS resource).
-
-## General considerations
-
-https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/secure-baseline-aks
-
-## Load Balancing
-
-https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview
+Additionally make sure that the workspace is configured to have access to the
+target Azure subscription.

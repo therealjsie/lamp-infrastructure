@@ -1,4 +1,5 @@
-# Ref.: https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/azurecaf_name
+# This file contains all resources for the provisioning of AKS and for the configuration of peripheral systems.
+
 resource "azurecaf_name" "aks_cluster" {
   name          = var.service_name
   suffixes      = [var.stage_name]
@@ -6,7 +7,6 @@ resource "azurecaf_name" "aks_cluster" {
   clean_input   = true
 }
 
-# Ref.: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster
 resource "azurerm_kubernetes_cluster" "service_name" {
   name                             = azurecaf_name.aks_cluster.result
   dns_prefix                       = azurecaf_name.aks_cluster.result
