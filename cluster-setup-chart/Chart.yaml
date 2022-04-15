@@ -1,0 +1,13 @@
+apiVersion: v2
+name: cluster-setup-chart
+description: |
+  A Helm chart for Kubernetes which contains CRDs that have to be created during cluster initialisation. 
+
+  This chart uses the helm templating functionality. Other helm features (release management etc) are not 
+  relevant for this chart.
+  
+  This chart is part of this repository because it is convenient. It might make sense to move this chart to an
+  artifact hub when it gains more importance at some point.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
