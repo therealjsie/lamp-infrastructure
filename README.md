@@ -2,8 +2,7 @@
 
 This is the infrastructure definition for a service that is deployed in an AKS
 cluster and uses an Azure-managed PostgreSQL database as well as Azure Key
-Vault. Please note, the infrastructure definition is not meant to be
-production-ready.
+Vault. Please note, the infrastructure definition is not production-ready.
 
 The goal of this repository is to provide basic infrastructure for the
 lamp-service in the
@@ -24,7 +23,9 @@ users (e.g. the built-in `Owner` role in Azure).
 ## Deployment
 
 The infrastruction definition can be deployed either through a local workspace
-or via Terraform cloud. In both cases the following parameters are relevant:
+or via Terraform cloud.
+
+## Parameter reference
 
 | Name                  | Type     | Description                                                                             | Required/Optional | Default              |
 | --------------------- | -------- | --------------------------------------------------------------------------------------- | ----------------- | -------------------- |
@@ -33,5 +34,5 @@ or via Terraform cloud. In both cases the following parameters are relevant:
 | `location`            | `string` | The location of the DC where the infrastructure will be deployed.                       | Optional          | Germany West Central |
 | `postgres_admin_user` | `string` | The name of the Postgres admin that will be configured during the infrastructure setup. | Optional          | psqladmin            |
 
-Additionally make sure that the workspace is configured to have access to the
+Additionally, make sure that the workspace is configured to have access to the
 target Azure subscription.
