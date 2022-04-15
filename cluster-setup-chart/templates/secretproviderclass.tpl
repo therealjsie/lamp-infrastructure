@@ -10,6 +10,8 @@ spec:
   - secretName: database-config
     type: Opaque
     data: 
+    - objectName: "database-user"
+      key: database-user
     - objectName: "database-password"
       key: database-password
     - objectName: "database-connection-string"
@@ -21,6 +23,9 @@ spec:
     useVMManagedIdentity: "true"
     objects:  |
       array:
+        - |
+          objectName: database-user
+          objectType: secret
         - |
           objectName: database-password
           objectType: secret

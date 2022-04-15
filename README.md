@@ -5,7 +5,7 @@ and uses an Azure-managed PostgreSQL database.
 
 ## Prerequisites
 
-- Terraformb
+- Terraform
 - Azure subscription
 
 Ref:
