@@ -105,6 +105,16 @@ resource "postgresql_schema" "service_name" {
   ]
 }
 
+resource "azurerm_key_vault_secret" "database_user" {
+  name         = "database-user"
+  value        = local.database_user
+  key_vault_id = azurerm_key_vault.service_name.id
+
+  depends_on = [
+    azurerm_key_vault_access_policy.terraform_provisioner
+  ]
+}
+
 resource "azurerm_key_vault_secret" "database_password" {
   name         = "database-password"
   value        = postgresql_role.service_name.password
