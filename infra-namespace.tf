@@ -10,8 +10,9 @@ resource "kubernetes_namespace" "service_name" {
 
 # Don't try kubernetes_manifest resource. See: https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/guides/alpha-manifest-migration-guide#mixing-kubernetes_manifest-with-other-kubernetes_-resources
 resource "helm_release" "crds" {
-  name  = "cluster-setup-chart"
-  chart = "./cluster-setup-chart"
+  name      = "cluster-setup-chart"
+  chart     = "./cluster-setup-chart"
+  namespace = var.service_name
 
   set {
     name  = "appName"

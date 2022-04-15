@@ -3,7 +3,6 @@ apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
 metadata:
   name: azure-secrets-csi-provider
-  namespace: {{ .Values.appName }}
 spec:
   provider: azure
   secretObjects:
